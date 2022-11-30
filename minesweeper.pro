@@ -10,15 +10,32 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    settings.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    settings.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    settings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources/resources.qrc
+
+DISTFILES += \
+    resources/images/explosion.png \
+    resources/images/flag.png \
+    resources/images/mine.png \
+    resources/images/tada.png \
+    resources/images/time.png \
+    resources/images/transparent.png \
+    resources/images/wrong.png \
+    resources/resources.rc \
+    resources/stylesheets/tilesheet.qss
