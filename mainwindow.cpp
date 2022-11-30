@@ -8,11 +8,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    settings = new Settings(this);
+    gameBoard = new GameBoard();
+    settings = new Settings(gameBoard, this);
     connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
 }
 
 MainWindow::~MainWindow()
 {
+    delete gameBoard;
+    delete settings;
     delete ui;
 }

@@ -1,6 +1,6 @@
 #include "gameboard.h"
 
-GameBoard::GameBoard(unsigned int numRows, unsigned int numColumns, unsigned int numMines, QWidget* parent): QFrame(parent)
+GameBoard::GameBoard(QWidget* parent, unsigned int numRows, unsigned int numColumns, unsigned int numMines): QFrame(parent)
 {
     if (!validMineCount(numRows, numColumns, numMines)) {
         throw std::invalid_argument("Invalid game board settings");
@@ -23,7 +23,7 @@ bool GameBoard::setNumMines(unsigned int numMines)
 
 bool GameBoard::setNumRows(unsigned int numRows)
 {
-    if (numRows < MIN_ROWS || !validMineCount(numRows, m_numColumns, m_numMines)) {
+    if (numRows < boardsize::MIN_ROWS || !validMineCount(numRows, m_numColumns, m_numMines)) {
         return false;
     }
     m_numRows = numRows;
@@ -32,7 +32,7 @@ bool GameBoard::setNumRows(unsigned int numRows)
 
 bool GameBoard::setNumColumns(unsigned int numColumns)
 {
-    if (numColumns < MIN_COLUMNS || !validMineCount(m_numRows, numColumns, m_numMines)) {
+    if (numColumns < boardsize::MIN_COLUMNS || !validMineCount(m_numRows, numColumns, m_numMines)) {
         return false;
     }
     m_numColumns = numColumns;
