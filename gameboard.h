@@ -3,8 +3,8 @@
 
 #include <QFrame>
 
-namespace boardsize {
-
+namespace boardsize
+{
     const unsigned int MIN_ROWS = 10;
     const unsigned int MIN_COLUMNS = 10;
 

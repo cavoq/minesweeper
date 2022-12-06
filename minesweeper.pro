@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui statemachine
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,12 +12,14 @@ SOURCES += \
     gameboard.cpp \
     main.cpp \
     mainwindow.cpp \
-    settings.cpp
+    settings.cpp \
+    tile.cpp
 
 HEADERS += \
     gameboard.h \
     mainwindow.h \
-    settings.h
+    settings.h \
+    tile.h
 
 FORMS += \
     mainwindow.ui \
