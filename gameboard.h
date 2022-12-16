@@ -2,6 +2,9 @@
 #define GAMEBOARD_H
 
 #include <QFrame>
+#include <QList>
+#include <QSet>
+#include "tile.h"
 
 namespace boardsize
 {
@@ -30,15 +33,39 @@ public:
     bool setNumColumns(unsigned int numColumns);
     bool setNumMines(unsigned int numMines);
 
+public slots:
+
+    void placeMines(Tile* firstClicked);
+
+signals:
+
+    void initialized();
+    void victory();
+    void defeat();
+    void flagCountChanged(unsigned int flagCount);
+
 private:
 
     bool validMineCount(unsigned int numRows, unsigned int numColumns, unsigned int numMines);
+    void createTiles();
+    void setupLayout();
+    void addNeighbors();
+    void checkVictory();
 
 private:
 
     unsigned int m_numRows;
     unsigned int m_numColumns;
     unsigned int m_numMines;
+
+    QList<QList<Tile*>> m_tiles;
+    QSet<Tile*> m_mines;
+    QSet<Tile*> m_correctFlags;
+    QSet<Tile*> m_incorrectFlags;
+    QSet<Tile*> m_revealedTiles;
+
+    bool m_defeat = false;
+    bool m_victory = false;
 };
 
 #endif // GAMEBOARD_H

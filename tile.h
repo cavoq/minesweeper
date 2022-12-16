@@ -81,11 +81,11 @@ private:
     static const QString revealedStyleSheet;
     static const QString revealedWithNumberStylesheet;
 
-    QStateMachine *stateMachine;
+    QStateMachine stateMachine;
     QState *unrevealedState;
     QState *flaggedState;
     QState *revealedState;
-    QState* revealNeighborsState;
+    QState *revealNeighborsState;
     QFinalState *disabledState;
 };
 

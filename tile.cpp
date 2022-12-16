@@ -39,6 +39,7 @@ Tile::~Tile()
     delete flaggedState;
     delete revealedState;
     delete disabledState;
+    delete revealNeighborsState;
 }
 
 unsigned int Tile::row() const
@@ -58,17 +59,17 @@ bool Tile::isMine() const
 
 bool Tile::isFlagged() const
 {
-    return stateMachine->configuration().contains(flaggedState);
+    return stateMachine.configuration().contains(flaggedState);
 }
 
 bool Tile::isRevealed() const
 {
-    return stateMachine->configuration().contains(revealedState);
+    return stateMachine.configuration().contains(revealedState);
 }
 
 bool Tile::isUnrevealed() const
 {
-    return stateMachine->configuration().contains(unrevealedState);
+    return stateMachine.configuration().contains(unrevealedState);
 }
 
 unsigned int Tile::adjacentMineCount() const
@@ -167,25 +168,23 @@ void Tile::incrementAdjacentMineCount()
 
 void Tile::createStateMachine()
 {
-    unrevealedState = new QState;
-    flaggedState = new QState;
-    revealedState = new QState;
-    disabledState = new QFinalState;
+    unrevealedState = new QState();
+    flaggedState = new QState();
+    revealedState = new QState();
+    revealNeighborsState = new QState();
+    disabledState = new QFinalState();
 
     unrevealedState->addTransition(this, &Tile::leftClicked, revealedState);
     unrevealedState->addTransition(this, &Tile::rightClicked, flaggedState);
     unrevealedState->addTransition(this, &Tile::reveal, revealedState);
     unrevealedState->addTransition(this, &Tile::disable, disabledState);
-
     flaggedState->addTransition(this, &Tile::rightClicked, unrevealedState);
-
     revealNeighborsState->addTransition(this, &Tile::reveal, revealedState);
 
     connect(unrevealedState, &QState::entered, [this]()
     {
         this->setIcon(blankIcon());
         this->setStyleSheet(unrevealedStyleSheet);
-
     });
 
     connect(revealNeighborsState, &QState::entered, [this]()
@@ -217,28 +216,28 @@ void Tile::createStateMachine()
     connect(flaggedState, &QState::entered, [this]()
     {
         this->setIcon(flagIcon());
-        for (auto neighbor : m_neighbors)
+        for (Tile *neighbor : m_neighbors)
             neighbor->incrementAdjacentFlaggedCount();
         emit flagged(m_isMine);
     });
 
     connect(flaggedState, &QState::exited, [this]()
     {
-        for (auto neighbor : m_neighbors)
+        for (Tile *neighbor : m_neighbors)
             neighbor->decrementAdjacentFlaggedCount();
         emit unFlagged(m_isMine);
     });
 
-    connect(disabledState, &QState::entered, [this]() {});
+    connect(disabledState, &QState::entered, []() {});
 
-    stateMachine->addState(unrevealedState);
-    stateMachine->addState(flaggedState);
-    stateMachine->addState(revealedState);
-    stateMachine->addState(revealNeighborsState);
-    stateMachine->addState(disabledState);
+    stateMachine.addState(unrevealedState);
+    stateMachine.addState(flaggedState);
+    stateMachine.addState(revealedState);
+    stateMachine.addState(revealNeighborsState);
+    stateMachine.addState(disabledState);
 
-    stateMachine->setInitialState(unrevealedState);
-    stateMachine->start();
+    stateMachine.setInitialState(unrevealedState);
+    stateMachine.start();
 }
 
 void Tile::setAdjacentDisplayCount()
