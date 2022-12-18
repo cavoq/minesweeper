@@ -14,11 +14,13 @@ class Tile : public QPushButton
 
 public:
 
-    Tile(unsigned int row, unsigned int column, QWidget* parent = nullptr);
+    Tile(unsigned int row, unsigned int column, unsigned int width, QWidget* parent = nullptr);
     ~Tile();
 
     unsigned int row() const;
     unsigned int column() const;
+    unsigned int width();
+    unsigned int height();
 
     bool isMine() const;
     bool isFlagged() const;
@@ -35,15 +37,16 @@ public:
     virtual void mousePressEvent(QMouseEvent* mousePressEvent) override;
     virtual void mouseReleaseEvent(QMouseEvent* mouseReleaseEvent) override;
 
-    static QIcon blankIcon();
-    static QIcon flagIcon();
-    static QIcon mineIcon();
-    static QIcon explosionIcon();
+    QIcon blankIcon();
+    QIcon flagIcon();
+    QIcon mineIcon();
+    QIcon explosionIcon();
 
 public slots:
 
     void incrementAdjacentFlaggedCount();
     void decrementAdjacentFlaggedCount();
+    bool hasAdjacentMines() const;
     void incrementAdjacentMineCount();
 
 signals:
@@ -68,6 +71,7 @@ private:
 private:
 
     const unsigned int m_row, m_column;
+    unsigned int m_width;
     bool m_isMine;
 
     unsigned int m_adjacentMineCount;

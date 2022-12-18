@@ -11,6 +11,9 @@ GameBoard::GameBoard(QWidget* parent, unsigned int numRows, unsigned int numColu
 {
     if (!validMineCount(numRows, numColumns, numMines))
         throw std::invalid_argument("Invalid game board settings");
+    this->m_numRows = numRows;
+    this->m_numColumns = numColumns;
+    this->m_numMines = numMines;
     setupLayout();
     createTiles();
     addNeighbors();
@@ -47,15 +50,43 @@ bool GameBoard::setNumColumns(unsigned int numColumns)
 
 void GameBoard::setupLayout()
 {
+    this->move(80, 90);
+    this->setMinimumSize(600, 400);
     this->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    auto layout = new QGridLayout;
+    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QGridLayout *layout = new QGridLayout();
+
+    calculateTileSize();
 
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSizeConstraint(QLayout::SetFixedSize);
 
+    unsigned int layoutWidth = m_numColumns * tileWidth;
+    unsigned int layoutHeight = m_numRows * tileWidth;
+
+    this->setFixedSize(layoutWidth, layoutHeight);
     this->setLayout(layout);
+}
+
+void GameBoard::calculateTileSize()
+{
+    tileWidth = boardsize::DEFAULT_TILE_WIDTH;
+
+    unsigned int layoutWidth = m_numColumns * tileWidth;
+    unsigned int layoutHeight = m_numRows * tileWidth;
+
+    if (layoutWidth < this->width() || layoutHeight < this->height())
+    {
+            if (layoutHeight < layoutWidth)
+            {
+                tileWidth = this->width() / m_numColumns;
+            }
+            else
+            {
+                tileWidth = this->width() / m_numRows;
+            }
+    }
 }
 
 void GameBoard::createTiles()
@@ -65,8 +96,8 @@ void GameBoard::createTiles()
         m_tiles += QList<Tile*>{};
         for (unsigned int column = 0; column < m_numColumns; ++column)
         {
-            m_tiles[row] += new Tile(row, column, this);
-            //static_cast<QGridLayout*>(this->layout())->addWidget(m_tiles[row][column], row, column);
+            m_tiles[row] += new Tile(row, column, tileWidth, this);
+            static_cast<QGridLayout*>(this->layout())->addWidget(m_tiles[row][column], row, column);
             connect(m_tiles[row][column], &Tile::firstClick, this, &GameBoard::placeMines);
             connect(m_tiles[row][column], &Tile::flagged, [this, tile = m_tiles[row][column]](bool isMine)
             {
@@ -93,7 +124,7 @@ void GameBoard::createTiles()
             connect(this, &GameBoard::victory, m_tiles[row][column], &Tile::disable);
         }
     }
-    //m_tiles[0][0]->setDown(true);
+    m_tiles[0][0]->setDown(true);
 }
 
 void GameBoard::addNeighbors()

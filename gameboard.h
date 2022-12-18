@@ -14,6 +14,8 @@ namespace boardsize
     const unsigned int DEFAULT_ROWS = 20;
     const unsigned int DEFAULT_COLUMNS = 20;
     const unsigned int DEFAULT_MINES = 10;
+
+    const unsigned int DEFAULT_TILE_WIDTH = 20;
 }
 
 class GameBoard : public QFrame
@@ -47,6 +49,7 @@ signals:
 private:
 
     bool validMineCount(unsigned int numRows, unsigned int numColumns, unsigned int numMines);
+    void calculateTileSize();
     void createTiles();
     void setupLayout();
     void addNeighbors();
@@ -57,6 +60,7 @@ private:
     unsigned int m_numRows;
     unsigned int m_numColumns;
     unsigned int m_numMines;
+    unsigned int tileWidth;
 
     QList<QList<Tile*>> m_tiles;
     QSet<Tile*> m_mines;

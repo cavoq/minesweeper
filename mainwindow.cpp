@@ -8,10 +8,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    gameBoard = new GameBoard(this, 20, 20, 10);
+    qInfo()<<ui->mainFrame->width();
+    gameBoard = new GameBoard(this, 15, 20, 10);
     gameBoard->show();
-    //settings = new Settings(gameBoard, this);
-    //connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
+    settings = new Settings(gameBoard, this);
+    connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
 }
 
 MainWindow::~MainWindow()

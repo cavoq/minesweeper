@@ -22,11 +22,12 @@ const QString Tile::revealedWithNumberStylesheet =
 
 bool Tile::m_firstClick = false;
 
-Tile::Tile(unsigned int row, unsigned int column, QWidget* parent):
-    QPushButton(parent), m_row(row), m_column(column), m_isMine(false),
+Tile::Tile(unsigned int row, unsigned int column, unsigned int width, QWidget* parent):
+    QPushButton(parent), m_row(row), m_column(column), m_width(width), m_isMine(false),
     m_adjacentMineCount(0), m_adjacentFlaggedCount(0)
 {
     createStateMachine();
+    this->setFixedSize(width, width);
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setCheckable(true);
     setMouseTracking(true);
@@ -70,6 +71,12 @@ bool Tile::isRevealed() const
 bool Tile::isUnrevealed() const
 {
     return stateMachine.configuration().contains(unrevealedState);
+}
+
+
+bool Tile::hasAdjacentMines() const
+{
+    return m_adjacentMineCount;
 }
 
 unsigned int Tile::adjacentMineCount() const
@@ -134,19 +141,19 @@ QIcon Tile::blankIcon()
 
 QIcon Tile::flagIcon()
 {
-    static QIcon icon = QIcon(QPixmap(":/flag").scaled(QSize(20, 20)));
+    QIcon icon = QIcon(QPixmap(":/flag").scaled(QSize(m_width, m_width)));
     return icon;
 }
 
 QIcon Tile::mineIcon()
 {
-    static QIcon icon = QIcon(QPixmap(":/mine").scaled(QSize(20, 20)));
+    QIcon icon = QIcon(QPixmap(":/mine").scaled(QSize(m_width, m_width)));
     return icon;
 }
 
 QIcon Tile::explosionIcon()
 {
-    static QIcon icon = QIcon(QPixmap(":/explosion").scaled(QSize(20, 20)));
+    QIcon icon = QIcon(QPixmap(":/explosion").scaled(QSize(m_width, m_width)));
     return icon;
 }
 
@@ -200,7 +207,8 @@ void Tile::createStateMachine()
         this->setChecked(true);
         if (!isMine())
         {
-            if (m_adjacentMineCount > 0)
+            this->setAdjacentDisplayCount();
+            if (!hasAdjacentMines())
                 revealNeighbors();
             emit revealed();
         }
@@ -243,5 +251,5 @@ void Tile::createStateMachine()
 void Tile::setAdjacentDisplayCount()
 {
     if(m_adjacentMineCount)
-            QPushButton::setText(QString::number(m_adjacentMineCount));
+        QPushButton::setText(QString::number(m_adjacentMineCount));
 }
