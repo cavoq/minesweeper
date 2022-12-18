@@ -185,7 +185,9 @@ void Tile::createStateMachine()
     unrevealedState->addTransition(this, &Tile::rightClicked, flaggedState);
     unrevealedState->addTransition(this, &Tile::reveal, revealedState);
     unrevealedState->addTransition(this, &Tile::disable, disabledState);
+
     flaggedState->addTransition(this, &Tile::rightClicked, unrevealedState);
+
     revealNeighborsState->addTransition(this, &Tile::reveal, revealedState);
 
     connect(unrevealedState, &QState::entered, [this]()
@@ -250,6 +252,38 @@ void Tile::createStateMachine()
 
 void Tile::setAdjacentDisplayCount()
 {
-    if(m_adjacentMineCount)
-        QPushButton::setText(QString::number(m_adjacentMineCount));
+    QString color;
+        switch (m_adjacentMineCount)
+        {
+        case 1:
+            color = "blue";
+            break;
+        case 2:
+            color = "green";
+            break;
+        case 3:
+            color = "red";
+            break;
+        case 4:
+            color = "midnightblue";
+            break;
+        case 5:
+            color = "maroon";
+            break;
+        case 6:
+            color = "darkcyan";
+            break;
+        case 7:
+            color = "black";
+            break;
+        case 8:
+            color = "grey";
+            break;
+        default:
+            break;
+        }
+
+        QPushButton::setStyleSheet(revealedWithNumberStylesheet.arg(color));
+        if(m_adjacentMineCount)
+            QPushButton::setText(QString::number(m_adjacentMineCount));
 }
