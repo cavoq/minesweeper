@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     gameBoard = new GameBoard(this);
     gameBoard->show();
-    settings = new Settings(gameBoard, this);
+    settings = new Settings(this);
     connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
-    connect(ui->btnNewGame, SIGNAL(clicked()), ui->mineTimer, SLOT(start()));
+    connect(ui->btnNewGame, SIGNAL(clicked()), this, SLOT(startGame()));
     connect(ui->btnPauseContinue, &QPushButton::toggled, [this](bool checked)
     {
         if (checked)
@@ -31,4 +31,9 @@ MainWindow::~MainWindow()
     delete gameBoard;
     delete settings;
     delete ui;
+}
+
+void MainWindow::startGame()
+{
+
 }

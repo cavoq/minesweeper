@@ -7,18 +7,22 @@
 #include <QSpacerItem>
 #include <QSet>
 
-GameBoard::GameBoard(QWidget* parent, unsigned int numRows, unsigned int numColumns, unsigned int numMines): QFrame(parent)
+int GameBoard::DEFAULT_TILE_WIDTH = 20;
+
+GameBoard::GameBoard(QWidget* parent, Settings *settings): QFrame(parent), settings(settings)
 {
-    initialize(numRows, numColumns, numMines);
+    initialize();
 }
 
-void GameBoard::initialize(unsigned int numRows, unsigned int numColumns, unsigned int numMines)
+void GameBoard::initialize()
 {
-    if (!validMineCount(numRows, numColumns, numMines))
+    if (!validMineCount(settings->numRows(), settings->numColumns(), settings->numMines()))
         throw std::invalid_argument("Invalid game board settings");
-    this->m_numRows = numRows;
-    this->m_numColumns = numColumns;
-    this->m_numMines = numMines;
+
+    this->m_numRows = settings->numRows();
+    this->m_numColumns = settings->numColumns();
+    this->m_numMines = settings->numMines();
+
     setupLayout();
     createTiles();
     addNeighbors();
@@ -68,8 +72,7 @@ void GameBoard::setupLayout()
 // Use difference between WIDTH and LAYOUTWIDTH AND HEIGHT, USE BIGGER VALUE
 void GameBoard::calculateTileSize()
 {
-    tileWidth = boardsize::DEFAULT_TILE_WIDTH;
-
+    tileWidth = DEFAULT_TILE_WIDTH;
     unsigned int layoutWidth = m_numColumns * tileWidth;
     unsigned int layoutHeight = m_numRows * tileWidth;
 

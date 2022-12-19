@@ -186,7 +186,7 @@ void Tile::createStateMachine()
     unrevealedState->addTransition(this, &Tile::reveal, revealedState);
     unrevealedState->addTransition(this, &Tile::disable, disabledState);
 
-    flaggedState->addTransition(this, &Tile::rightClicked, unrevealedState);
+    flaggedState->addTransition(this, &Tile::middleClicked, unrevealedState);
 
     revealNeighborsState->addTransition(this, &Tile::reveal, revealedState);
 

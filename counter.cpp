@@ -7,7 +7,7 @@ Counter::Counter(QWidget* parent) : QLCDNumber(parent), count(0)
 
 void Counter::setCounter(uint count)
 {
-    if (count <= 0 || count > 999)
+    if (count < 0 || count > 999)
         return;
     display((int)count);
 }

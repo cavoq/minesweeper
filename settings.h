@@ -4,7 +4,19 @@
 #include <QDialog>
 #include <QIntValidator>
 #include <QMessageBox>
-#include "gameboard.h"
+
+namespace DEFAULT_SETTINGS
+{
+    const unsigned int MIN_ROWS = 10;
+    const unsigned int MIN_COLUMNS = 10;
+
+    const unsigned int MAX_ROWS = 30;
+    const unsigned int MAX_COLUMNS = 40;
+
+    const unsigned int DEFAULT_ROWS = 15;
+    const unsigned int DEFAULT_COLUMNS = 20;
+    const unsigned int DEFAULT_MINES = 50;
+}
 
 namespace Ui {
 class Settings;
@@ -16,8 +28,11 @@ class Settings : public QDialog
 
 public:
 
-    explicit Settings(GameBoard* gameBoard, QWidget *parent = nullptr);
+    explicit Settings(QWidget *parent = nullptr);
     ~Settings();
+    unsigned int numRows();
+    unsigned int numColumns();
+    unsigned int numMines();
 
 public slots:
 
@@ -27,7 +42,9 @@ public slots:
 private:
 
     Ui::Settings *ui;
-    GameBoard *gameBoard;
+    unsigned int m_numRows;
+    unsigned int m_numColumns;
+    unsigned int m_numMines;
 };
 
 #endif // SETTINGS_H
