@@ -117,7 +117,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdMineCount">
+   <widget class="Counter" name="mineCounter">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -161,7 +161,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdFlagCount">
+   <widget class="Counter" name="flagCounter">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -291,6 +291,11 @@
    <class>MineTimer</class>
    <extends>QLCDNumber</extends>
    <header location="global">minetimer.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Counter</class>
+   <extends>QLCDNumber</extends>
+   <header location="global">counter.h</header>
   </customwidget>
  </customwidgets>
  <resources>

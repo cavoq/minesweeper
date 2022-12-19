@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QList>
 #include <QSet>
+#include "qgridlayout.h"
 #include "tile.h"
 
 namespace boardsize
@@ -11,9 +12,12 @@ namespace boardsize
     const unsigned int MIN_ROWS = 10;
     const unsigned int MIN_COLUMNS = 10;
 
-    const unsigned int DEFAULT_ROWS = 20;
+    const unsigned int MAX_ROWS = 30;
+    const unsigned int MAX_COLUMNS = 40;
+
+    const unsigned int DEFAULT_ROWS = 15;
     const unsigned int DEFAULT_COLUMNS = 20;
-    const unsigned int DEFAULT_MINES = 10;
+    const unsigned int DEFAULT_MINES = 50;
 
     const unsigned int DEFAULT_TILE_WIDTH = 20;
 }
@@ -30,10 +34,7 @@ public:
     unsigned int numRows();
     unsigned int numColumns();
     unsigned int numMines();
-
-    bool setNumRows(unsigned int numRows);
-    bool setNumColumns(unsigned int numColumns);
-    bool setNumMines(unsigned int numMines);
+    void initialize(unsigned int numRows, unsigned int numColumns, unsigned int numMines);
 
 public slots:
 
@@ -56,6 +57,8 @@ private:
     void checkVictory();
 
 private:
+
+    QGridLayout *gameLayout;
 
     unsigned int m_numRows;
     unsigned int m_numColumns;

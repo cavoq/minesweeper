@@ -5,18 +5,11 @@ Counter::Counter(QWidget* parent) : QLCDNumber(parent), count(0)
     setDigitCount(3);
 }
 
-void Counter::increment()
+void Counter::setCounter(uint count)
 {
-    ++count;
-    display(count);
-}
-
-void Counter::decrement()
-{
-    if (count <= 0)
+    if (count <= 0 || count > 999)
         return;
-    --count;
-    display(count);
+    display((int)count);
 }
 
 void Counter::reset()

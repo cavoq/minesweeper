@@ -9,6 +9,11 @@
 
 GameBoard::GameBoard(QWidget* parent, unsigned int numRows, unsigned int numColumns, unsigned int numMines): QFrame(parent)
 {
+    initialize(numRows, numColumns, numMines);
+}
+
+void GameBoard::initialize(unsigned int numRows, unsigned int numColumns, unsigned int numMines)
+{
     if (!validMineCount(numRows, numColumns, numMines))
         throw std::invalid_argument("Invalid game board settings");
     this->m_numRows = numRows;
@@ -24,28 +29,19 @@ bool GameBoard::validMineCount(unsigned int numRows, unsigned int numColums, uns
     return numMines < numRows * numColums;
 }
 
-bool GameBoard::setNumMines(unsigned int numMines)
+unsigned int GameBoard::numRows()
 {
-    if (!validMineCount(m_numMines, m_numColumns, numMines))
-        return false;
-    m_numMines = numMines;
-    return true;
+    return m_numRows;
 }
 
-bool GameBoard::setNumRows(unsigned int numRows)
+unsigned int GameBoard::numColumns()
 {
-    if (numRows < boardsize::MIN_ROWS || !validMineCount(numRows, m_numColumns, m_numMines))
-        return false;
-    m_numRows = numRows;
-    return true;
+    return m_numColumns;
 }
 
-bool GameBoard::setNumColumns(unsigned int numColumns)
+unsigned int GameBoard::numMines()
 {
-    if (numColumns < boardsize::MIN_COLUMNS || !validMineCount(m_numRows, numColumns, m_numMines))
-        return false;
-    m_numColumns = numColumns;
-    return true;
+    return m_numMines;
 }
 
 void GameBoard::setupLayout()
@@ -54,21 +50,22 @@ void GameBoard::setupLayout()
     this->setMinimumSize(600, 400);
     this->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    QGridLayout *layout = new QGridLayout();
 
     calculateTileSize();
 
-    layout->setSpacing(0);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSizeConstraint(QLayout::SetFixedSize);
+    gameLayout = new QGridLayout();
+    gameLayout->setSpacing(0);
+    gameLayout->setContentsMargins(0, 0, 0, 0);
+    gameLayout->setSizeConstraint(QLayout::SetFixedSize);
 
     unsigned int layoutWidth = m_numColumns * tileWidth;
     unsigned int layoutHeight = m_numRows * tileWidth;
 
     this->setFixedSize(layoutWidth, layoutHeight);
-    this->setLayout(layout);
+    this->setLayout(gameLayout);
 }
 
+// Use difference between WIDTH and LAYOUTWIDTH AND HEIGHT, USE BIGGER VALUE
 void GameBoard::calculateTileSize()
 {
     tileWidth = boardsize::DEFAULT_TILE_WIDTH;

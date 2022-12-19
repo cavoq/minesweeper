@@ -2,6 +2,8 @@
 #define SETTINGS_H
 
 #include <QDialog>
+#include <QIntValidator>
+#include <QMessageBox>
 #include "gameboard.h"
 
 namespace Ui {
@@ -16,6 +18,11 @@ public:
 
     explicit Settings(GameBoard* gameBoard, QWidget *parent = nullptr);
     ~Settings();
+
+public slots:
+
+    void confirm();
+    void cancel();
 
 private:
 

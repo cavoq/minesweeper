@@ -8,12 +8,12 @@ class Counter : public QLCDNumber
     Q_OBJECT
 
 public:
+
     Counter(QWidget* parent = nullptr);
 
 public slots:
 
-    void increment();
-    void decrement();
+    void setCounter(uint count);
     void reset();
 
 private:
