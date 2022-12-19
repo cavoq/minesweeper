@@ -68,6 +68,8 @@ void Settings::confirm()
     m_numColumns = numColumns;
     m_numMines = numMines;
 
+    emit settingsChanged();
+
     this->close();
 }
 

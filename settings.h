@@ -34,6 +34,9 @@ public:
     unsigned int numColumns();
     unsigned int numMines();
 
+signals:
+    void settingsChanged();
+
 public slots:
 
     void confirm();

@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    gameBoard = new GameBoard(this);
-    gameBoard->show();
     settings = new Settings(this);
     connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
     connect(ui->btnNewGame, SIGNAL(clicked()), this, SLOT(startGame()));
@@ -23,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
         ui->mineTimer->resume();
     });
-    connect(gameBoard, SIGNAL(flagCountChanged(uint)), ui->flagCounter, SLOT(setCounter(uint)));
+    startGame();
 }
 
 MainWindow::~MainWindow()
@@ -35,5 +33,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::startGame()
 {
+    delete gameBoard;
+    gameBoard = new GameBoard(this, settings);
 
+    ui->mineCounter->setCounter(settings->numMines());
+    ui->flagCounter->reset();
+    ui->mineTimer->start();
+
+    connect(gameBoard, SIGNAL(flagCountChanged(uint)), ui->flagCounter, SLOT(setCounter(uint)));
 }
