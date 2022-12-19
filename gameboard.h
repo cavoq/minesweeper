@@ -15,6 +15,7 @@ class GameBoard : public QFrame
 public:
 
     GameBoard(QWidget* parent = nullptr, Settings *settings = new Settings());
+    ~GameBoard();
 
     unsigned int numRows();
     unsigned int numColumns();

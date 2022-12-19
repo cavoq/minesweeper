@@ -35,6 +35,7 @@ void MainWindow::startGame()
 {
     delete gameBoard;
     gameBoard = new GameBoard(this, settings);
+    gameBoard->show();
 
     ui->mineCounter->setCounter(settings->numMines());
     ui->flagCounter->reset();

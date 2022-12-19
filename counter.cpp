@@ -15,5 +15,5 @@ void Counter::setCounter(uint count)
 void Counter::reset()
 {
     count = 0;
-    display(count);
+    display((int)count);
 }

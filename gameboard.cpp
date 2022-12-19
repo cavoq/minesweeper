@@ -14,6 +14,11 @@ GameBoard::GameBoard(QWidget* parent, Settings *settings): QFrame(parent), setti
     initialize();
 }
 
+GameBoard::~GameBoard()
+{
+    delete gameLayout;
+}
+
 void GameBoard::initialize()
 {
     if (!validMineCount(settings->numRows(), settings->numColumns(), settings->numMines()))

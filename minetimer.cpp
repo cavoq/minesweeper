@@ -3,6 +3,7 @@
 MineTimer::MineTimer(QWidget* parent) : QLCDNumber(parent), m_seconds(0)
 {
     timer = new QTimer(this);
+    time = new QTime(0, 0, 0, 0);
     this->setSegmentStyle(QLCDNumber::Filled);
     display("00:00");
 }
@@ -16,9 +17,11 @@ void MineTimer::start()
 
 void MineTimer::reset()
 {
+    delete timer;
+    timer = new QTimer(this);
+    time->setHMS(0, 0, 0, 0);
     display("00:00");
     m_seconds = 0;
-    time->setHMS(0, 0, 0, 0);
 }
 
 void MineTimer::pause()
