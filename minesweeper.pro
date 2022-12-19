@@ -11,6 +11,7 @@ CONFIG += c++17
 # Instruct CMake to run moc automatically when needed.
 
 SOURCES += \
+    counter.cpp \
     gameboard.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     tile.cpp
 
 HEADERS += \
+    counter.h \
     gameboard.h \
     mainwindow.h \
     minetimer.h \
