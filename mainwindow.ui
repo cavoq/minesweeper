@@ -177,7 +177,7 @@
      </sizepolicy>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdTimer">
+   <widget class="MineTimer" name="mineTimer">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -286,6 +286,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MineTimer</class>
+   <extends>QLCDNumber</extends>
+   <header location="global">minetimer.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources/resources.qrc"/>
  </resources>

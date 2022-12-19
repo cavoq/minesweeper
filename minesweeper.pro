@@ -14,12 +14,14 @@ SOURCES += \
     gameboard.cpp \
     main.cpp \
     mainwindow.cpp \
+    minetimer.cpp \
     settings.cpp \
     tile.cpp
 
 HEADERS += \
     gameboard.h \
     mainwindow.h \
+    minetimer.h \
     settings.h \
     tile.h
 
