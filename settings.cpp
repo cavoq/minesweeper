@@ -18,6 +18,9 @@ Settings::Settings(QWidget *parent):
     connect(ui->btnConfirm, SIGNAL(clicked()), this, SLOT(confirm()));
 }
 
+Settings::Settings(unsigned int numRows, unsigned int numColumns, unsigned int numMines, QWidget *parent): QDialog(parent), ui(new Ui::Settings),
+    m_numRows(numRows), m_numColumns(numColumns), m_numMines(numMines) {}
+
 Settings::~Settings()
 {
     delete ui;

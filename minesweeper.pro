@@ -13,23 +13,29 @@ CONFIG += c++17
 SOURCES += \
     counter.cpp \
     gameboard.cpp \
+    help.cpp \
     main.cpp \
     mainwindow.cpp \
     minetimer.cpp \
     settings.cpp \
+    stats.cpp \
     tile.cpp
 
 HEADERS += \
     counter.h \
     gameboard.h \
+    help.h \
     mainwindow.h \
     minetimer.h \
     settings.h \
+    stats.h \
     tile.h
 
 FORMS += \
+    help.ui \
     mainwindow.ui \
-    settings.ui
+    settings.ui \
+    stats.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

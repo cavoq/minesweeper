@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Help</class>
+ <widget class="QDialog" name="Help">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>396</width>
+    <height>202</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Hilfe</string>
+  </property>
+  <widget class="QLabel" name="middleMpuseClickLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>371</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mittlerer Mausklick: Entfernt die Markierung mit einer Flagge, 
+                                        falls eine Markierung gesetzt wurde.</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="leftMouseClickLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>120</y>
+     <width>371</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Linker Mausklick: Deckt das jeweilige Feld auf, 
+                                   falls eine Bombe enthalten ist
+                                   gilt das Spiel als verloren.</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rightMouseClicklabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>331</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rechter Mausklick: Markiert ein einzelnes Feld 
+                                      mit einer Flagge.</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

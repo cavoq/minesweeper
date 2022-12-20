@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "stats.h"
 #include "ui_mainwindow.h"
 #include "minetimer.h"
 
@@ -9,8 +10,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     settings = new Settings(this);
+    stats = new Stats(this);
+    help = new Help(this);
+
     connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
+    connect(ui->actionShowStats, SIGNAL(triggered()), stats, SLOT(show()));
+    connect(ui->actionHelp, SIGNAL(triggered()), help, SLOT(show()));
+
     connect(ui->btnNewGame, SIGNAL(clicked()), this, SLOT(startGame()));
     connect(ui->btnPauseContinue, &QPushButton::toggled, [this](bool checked)
     {
@@ -21,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
         ui->mineTimer->resume();
     });
+    connect(settings, SIGNAL(settingsChanged()), this, SLOT(startGame()));
     startGame();
 }
 

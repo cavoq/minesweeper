@@ -29,6 +29,7 @@ class Settings : public QDialog
 public:
 
     explicit Settings(QWidget *parent = nullptr);
+    Settings(unsigned int numRows, unsigned int numColumns, unsigned int numMines, QWidget *parent = nullptr);
     ~Settings();
     unsigned int numRows();
     unsigned int numColumns();
