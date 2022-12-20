@@ -12,8 +12,10 @@ class MineTimer : public QLCDNumber
 public:
 
     MineTimer(QWidget* parent = nullptr);
+    QString getTime();
     void reset();
     void pause();
+    void stop();
     void resume();
 
 public slots:

@@ -15,13 +15,22 @@ void MineTimer::start()
     timer->start(1000);
 }
 
+QString MineTimer::getTime()
+{
+    return time->addSecs(m_seconds).toString("mm:ss");
+}
+
 void MineTimer::reset()
 {
-    delete timer;
     timer = new QTimer(this);
     time->setHMS(0, 0, 0, 0);
     display("00:00");
     m_seconds = 0;
+}
+
+void MineTimer::stop()
+{
+    delete timer;
 }
 
 void MineTimer::pause()

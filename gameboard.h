@@ -41,6 +41,7 @@ private:
     void setupLayout();
     void addNeighbors();
     void checkVictory();
+    void defeatAnimation();
 
 private:
 
@@ -58,6 +59,8 @@ private:
     QSet<Tile*> m_correctFlags;
     QSet<Tile*> m_incorrectFlags;
     QSet<Tile*> m_revealedTiles;
+
+    QTimer* explosionTimer;
 
     bool m_defeat = false;
     bool m_victory = false;

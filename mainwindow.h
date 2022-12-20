@@ -20,10 +20,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
+signals:
 
     void startGame();
-    void updateSettings();
+    void startNewGame();
+    void victory();
+    void defeat();
+
+protected slots:
+
+    void onFinished(bool win);
+    void initializeGame();
+
+private:
+
+    void setupMenus();
+    void setupStateMachine();
 
 private:
 
@@ -33,7 +45,7 @@ private:
     Stats *stats;
     Help *help;
 
-    QStateMachine* m_machine;
+    QStateMachine* stateMachine;
     QState* unstartedState;
     QState* inProgressState;
     QState* victoryState;

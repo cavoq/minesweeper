@@ -46,7 +46,6 @@ public slots:
 
     void incrementAdjacentFlaggedCount();
     void decrementAdjacentFlaggedCount();
-    bool hasAdjacentMines() const;
     void incrementAdjacentMineCount();
 
 signals:
@@ -67,6 +66,7 @@ private:
 
     void createStateMachine();
     void setAdjacentDisplayCount();
+    bool hasAdjacentMines() const;
 
 private:
 

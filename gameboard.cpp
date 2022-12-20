@@ -1,4 +1,5 @@
 #include "gameboard.h"
+#include "qtimer.h"
 
 #include <algorithm>
 #include <random>
@@ -9,13 +10,14 @@
 
 int GameBoard::DEFAULT_TILE_WIDTH = 20;
 
-GameBoard::GameBoard(QWidget* parent, Settings *settings): QFrame(parent), settings(settings)
+GameBoard::GameBoard(QWidget* parent, Settings *settings): QFrame(parent), settings(settings), explosionTimer(new QTimer(this))
 {
     initialize();
 }
 
 GameBoard::~GameBoard()
 {
+    delete explosionTimer;
     delete gameLayout;
 }
 
@@ -31,6 +33,36 @@ void GameBoard::initialize()
     setupLayout();
     createTiles();
     addNeighbors();
+
+    connect(this, &GameBoard::victory, [this]()
+    {
+        explosionTimer->setProperty("victory", true);
+    });
+
+    connect(this, &GameBoard::defeat, [this]()
+    {
+        explosionTimer->setProperty("victory", false);
+    });
+
+    connect(explosionTimer, &QTimer::timeout, [this]()
+    {
+        if (m_mines.isEmpty())
+        {
+            explosionTimer->stop();
+            return;
+        }
+
+        Tile* mine = m_mines.values().front();
+        m_mines.remove(mine);
+
+        if (explosionTimer->property("victory").toBool())
+            mine->setIcon(mine->blankIcon());
+        else
+        {
+            if (!m_correctFlags.contains(mine))
+                mine->setIcon(mine->explosionIcon());
+        }
+    });
 }
 
 bool GameBoard::validMineCount(unsigned int numRows, unsigned int numColums, unsigned int numMines)
@@ -125,6 +157,7 @@ void GameBoard::createTiles()
                 m_revealedTiles.insert(tile);
                 checkVictory();
             });
+            connect(m_tiles[row][column], &Tile::detonated, this, &GameBoard::defeatAnimation);
             connect(this, &GameBoard::defeat, m_tiles[row][column], &Tile::disable);
             connect(this, &GameBoard::victory, m_tiles[row][column], &Tile::disable);
         }
@@ -163,8 +196,42 @@ void GameBoard::checkVictory()
         {
             emit victory();
             m_victory = true;
+            QTimer::singleShot(0, explosionTimer, [this]()
+            {
+                explosionTimer->start(25);
+            });
         }
     }
+}
+
+void GameBoard::defeatAnimation()
+{
+    Tile* sender = dynamic_cast<Tile*>(this->sender());
+
+    QTimer::singleShot(350, this, [sender]()
+    {
+        sender->setIcon(sender->explosionIcon());
+    });
+
+    QTimer::singleShot(500, this, [this]()
+    {
+        for (auto wrong : qAsConst(m_incorrectFlags))
+        {
+            wrong->setIcon(wrong->mineIcon());
+        }
+        for (auto mine : qAsConst(m_mines))
+        {
+            disconnect(mine, &Tile::detonated, this, &GameBoard::defeatAnimation);
+            if (!mine->isFlagged())
+                emit mine->reveal();
+        }
+        emit defeat();
+    });
+
+    QTimer::singleShot(1000, explosionTimer, [this]()
+    {
+        explosionTimer->start(25);
+    });
 }
 
 void GameBoard::placeMines(Tile* firstClicked)
