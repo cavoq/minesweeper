@@ -1,7 +1,6 @@
-#include "mainwindow.h"
-#include "stats.h"
+#include "model/header/mainwindow.h"
+#include "model/header/stats.h"
 #include "ui_mainwindow.h"
-#include "minetimer.h"
 
 #include <QObject>
 

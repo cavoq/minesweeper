@@ -1,4 +1,4 @@
-#include "counter.h"
+#include "model/header/counter.h"
 
 Counter::Counter(QWidget* parent) : QLCDNumber(parent), count(0)
 {

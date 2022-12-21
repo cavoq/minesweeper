@@ -1,4 +1,4 @@
-#include "stats.h"
+#include "model/header/stats.h"
 #include "qevent.h"
 #include "ui_stats.h"
 #include <QFile>

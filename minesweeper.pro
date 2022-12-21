@@ -11,47 +11,50 @@ CONFIG += c++17
 # Instruct CMake to run moc automatically when needed.
 
 SOURCES += \
-    counter.cpp \
-    gameboard.cpp \
-    help.cpp \
+    model/src/counter.cpp \
+    model/src/gameboard.cpp \
+    model/src/help.cpp \
     main.cpp \
-    mainwindow.cpp \
-    minetimer.cpp \
-    settings.cpp \
-    stats.cpp \
-    tile.cpp
+    model/src/mainwindow.cpp \
+    model/src/minetimer.cpp \
+    model/src/settings.cpp \
+    model/src/stats.cpp \
+    model/src/tile.cpp
 
 HEADERS += \
-    counter.h \
-    gameboard.h \
-    help.h \
-    mainwindow.h \
-    minetimer.h \
-    settings.h \
-    stats.h \
-    tile.h
+    model/header/counter.h \
+    model/header/gameboard.h \
+    model/header/help.h \
+    model/header/mainwindow.h \
+    model/header/minetimer.h \
+    model/header/settings.h \
+    model/header/stats.h \
+    model/header/tile.h
 
 FORMS += \
-    help.ui \
-    mainwindow.ui \
-    settings.ui \
-    stats.ui
+    view/help.ui \
+    view/mainwindow.ui \
+    view/settings.ui \
+    view/stats.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+copydata.commands = $(COPY_DIR) $$PWD/stats.json $$OUT_PWD
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
+
 RESOURCES += \
-    resources/resources.qrc
+    resources/resources.qrc \
 
 DISTFILES += \
     resources/images/explosion.png \
     resources/images/flag.png \
     resources/images/mine.png \
-    resources/images/tada.png \
     resources/images/time.png \
-    resources/images/transparent.png \
-    resources/images/wrong.png \
     resources/resources.rc \
     resources/stylesheets/tilesheet.qss

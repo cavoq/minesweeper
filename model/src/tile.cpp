@@ -1,4 +1,4 @@
-#include "tile.h"
+#include "model/header/tile.h"
 
 const QString Tile::unrevealedStyleSheet =
         "Tile"

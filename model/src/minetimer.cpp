@@ -1,4 +1,4 @@
-#include "minetimer.h"
+#include "model/header/minetimer.h"
 
 MineTimer::MineTimer(QWidget* parent) : QLCDNumber(parent), m_seconds(0)
 {

@@ -1,4 +1,4 @@
-#include "help.h"
+#include "model/header/help.h"
 #include "ui_help.h"
 
 Help::Help(QWidget *parent) :

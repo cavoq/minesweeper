@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "model/header/settings.h"
 #include "ui_settings.h"
 
 Settings::Settings(QWidget *parent):
@@ -61,7 +61,7 @@ void Settings::confirm()
     }
 
     int numMines = ui->lineEditMineCount->text().toInt();
-    if (numMines >= numRows * numColumns || numMines < DEFAULT_SETTINGS::DEFAULT_MINES)
+    if (numMines >= numRows * numColumns || numMines < DEFAULT_SETTINGS::MIN_MINES)
     {
         QMessageBox::warning(this, tr("Ungültige Minenanzahl"), tr("Die Anzahl der Minen muss kleiner als die Anzahl der Zeilen mal die Anzahl der Spalten sein und größer als 0."));
         return;
