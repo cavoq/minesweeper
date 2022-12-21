@@ -13,7 +13,7 @@ int Counter::getCount()
 void Counter::setCounter(uint count)
 {
     this->count = count;
-    if (count < 0 || count > 999)
+    if (count > 999)
         return;
     display((int)count);
 }
