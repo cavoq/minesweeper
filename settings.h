@@ -7,8 +7,9 @@
 
 namespace DEFAULT_SETTINGS
 {
-    const unsigned int MIN_ROWS = 2;
-    const unsigned int MIN_COLUMNS = 2;
+    const unsigned int MIN_ROWS = 5;
+    const unsigned int MIN_COLUMNS = 5;
+    const unsigned int MIN_MINES = 1;
 
     const unsigned int MAX_ROWS = 30;
     const unsigned int MAX_COLUMNS = 40;

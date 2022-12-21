@@ -67,6 +67,7 @@ void MainWindow::initializeGame()
     ui->mineTimer->reset();
 
     ui->flagCounter->reset();
+    ui->flagCounter->setColor(Qt::white);
 
     connect(gameBoard, &GameBoard::initialized, this, &MainWindow::startGame, Qt::UniqueConnection);
     connect(gameBoard, &GameBoard::flagCountChanged, [this](int flagCount)
@@ -85,6 +86,7 @@ void MainWindow::initializeGame()
     int width = this->width() < gameBoard->width() ? gameBoard->width() : this->width();
     int height = this->height() < gameBoard->height() ? gameBoard->height() : this->height();
     this->resize(QSize(width, height));
+
     gameBoard->show();
 }
 
@@ -115,6 +117,7 @@ void MainWindow::setupStateMachine()
     {
         ui->mineTimer->start();
         connect(ui->btnQuit, SIGNAL(clicked()), gameBoard, SLOT(quit()), Qt::UniqueConnection);
+        connect(settings, &Settings::settingsChanged, this, &MainWindow::startNewGame);
     });
 
     connect(victoryState, &QState::entered, [this]()

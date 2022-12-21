@@ -166,7 +166,11 @@ void GameBoard::createTiles()
 
 void GameBoard::quit()
 {
-    defeatAnimation();
+    if (m_mines.empty())
+    {
+        return;
+    }
+    emit m_mines.values().at(0)->detonated();
 }
 
 void GameBoard::addNeighbors()

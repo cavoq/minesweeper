@@ -16,7 +16,6 @@ MineTimer::~MineTimer()
 
 void MineTimer::start()
 {
-    reset();
     connect(timer, &QTimer::timeout, this, QOverload<>::of(&MineTimer::update));
     timer->start(1000);
 }
@@ -28,7 +27,8 @@ QString MineTimer::getTime()
 
 void MineTimer::reset()
 {
-    timer = new QTimer(this);
+    delete timer;
+    timer = new QTimer();
     time->setHMS(0, 0, 0, 0);
     display("00:00");
     m_seconds = 0;
@@ -36,7 +36,7 @@ void MineTimer::reset()
 
 void MineTimer::stop()
 {
-    delete timer;
+    disconnect(timer, &QTimer::timeout, this, QOverload<>::of(&MineTimer::update));
 }
 
 void MineTimer::pause()
