@@ -17,7 +17,6 @@ Stats::Stats(QWidget *parent) :
     layout->addWidget(ui->statisticsTableWidget);
     this->setLayout(layout);
     createTable();
-    read();
 }
 
 void Stats::createTable()
@@ -51,7 +50,8 @@ bool Stats::addToRecord(Settings &settings, QString time, bool win)
             if (win)
             {
                 wins++;
-            } else
+            }
+            else
             {
                 loses++;
             }
@@ -64,12 +64,14 @@ bool Stats::addToRecord(Settings &settings, QString time, bool win)
             QTime currentFastestTime = QTime::fromString(currentFastest, "mm:ss");
             QTime newTime = QTime::fromString(time, "mm:ss");
 
-            if (newTime < currentFastestTime || currentFastest.isEmpty()) {
+            if (newTime < currentFastestTime || (currentFastest.isEmpty() && win)) {
                 ui->statisticsTableWidget->item(i, 6)->setText(time);
             }
             return true;
         }
     }
+    if (!win)
+        time = "";
     return insertRecord(settings, time, 1, win);
 }
 
@@ -112,10 +114,56 @@ bool Stats::insertRecord(Settings &settings, QString time, int games, int wins)
     return true;
 }
 
+bool Stats::save()
+{
+    QFile file(statsJsonFile);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QFile::Truncate))
+    {
+        qWarning() << "Failed to open" << statsJsonFile << "for writing.";
+        return false;
+    }
+
+    QJsonArray statsArray;
+
+    for (int i = 0; i < ui->statisticsTableWidget->rowCount(); ++i)
+    {
+        QJsonObject statsObject;
+
+        int rows = ui->statisticsTableWidget->item(i, 0)->text().toInt();
+        int columns = ui->statisticsTableWidget->item(i, 1)->text().toInt();
+        int mines = ui->statisticsTableWidget->item(i, 2)->text().toInt();
+        int games = ui->statisticsTableWidget->item(i, 3)->text().toInt();
+        int wins = ui->statisticsTableWidget->item(i, 4)->text().toInt();
+        int loses = ui->statisticsTableWidget->item(i, 5)->text().toInt();
+        QString fastest = ui->statisticsTableWidget->item(i, 6)->text();
+
+        QJsonObject settingsObject;
+        settingsObject["rows"] = rows;
+        settingsObject["columns"] = columns;
+        settingsObject["mines"] = mines;
+        statsObject["settings"] = settingsObject;
+
+        statsObject["games"] = games;
+        statsObject["wins"] = wins;
+        statsObject["loses"] = loses;
+        statsObject["fastest"] = fastest;
+
+        statsArray.append(statsObject);
+    }
+
+    QJsonDocument doc(statsArray);
+    file.write(doc.toJson());
+    file.close();
+
+    return true;
+}
+
+
 bool Stats::read()
 {
     QFile file(statsJsonFile);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
         qWarning() << "Failed to open" << statsJsonFile << "for reading.";
         return false;
     }
@@ -127,7 +175,8 @@ bool Stats::read()
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
     QJsonArray statsArray = doc.array();
 
-    for (int i = 0; i < statsArray.size(); ++i) {
+    for (int i = 0; i < statsArray.size(); ++i)
+    {
         QJsonObject statsObject = statsArray[i].toObject();
         QJsonObject settingsObject = statsObject["settings"].toObject();
 

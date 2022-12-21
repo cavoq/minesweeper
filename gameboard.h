@@ -25,6 +25,7 @@ public:
 public slots:
 
     void placeMines(Tile* firstClicked);
+    void quit();
 
 signals:
 

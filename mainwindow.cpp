@@ -23,17 +23,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    stats->save();
+    QMainWindow::closeEvent(event);
+}
+
 void MainWindow::setupMenus()
 {
     settings = new Settings(this);
     stats = new Stats(this);
     help = new Help(this);
 
+    stats->read();
+
     connect(ui->actionChangeGameSize, SIGNAL(triggered()), settings, SLOT(show()));
     connect(ui->actionShowStats, SIGNAL(triggered()), stats, SLOT(show()));
     connect(ui->actionHelp, SIGNAL(triggered()), help, SLOT(show()));
 
-    connect(settings, SIGNAL(settingsChanged()), this, SLOT(initializeGame()));
+    connect(settings, SIGNAL(settingsChanged()), this, SLOT(initializeGame()), Qt::UniqueConnection);
 
     connect(ui->btnNewGame, &QPushButton::clicked, this, &MainWindow::startNewGame, Qt::UniqueConnection);
     connect(ui->btnPauseContinue, &QPushButton::toggled, [this](bool checked)
@@ -41,9 +50,11 @@ void MainWindow::setupMenus()
         if (checked)
         {
             ui->mineTimer->pause();
+            gameBoard->hide();
             return;
         }
         ui->mineTimer->resume();
+        gameBoard->show();
     });
 }
 
@@ -54,13 +65,26 @@ void MainWindow::initializeGame()
 
     ui->mineCounter->setCounter(settings->numMines());
     ui->mineTimer->reset();
+
     ui->flagCounter->reset();
 
     connect(gameBoard, &GameBoard::initialized, this, &MainWindow::startGame, Qt::UniqueConnection);
-    connect(gameBoard, SIGNAL(flagCountChanged(uint)), ui->flagCounter, SLOT(setCounter(uint)));
+    connect(gameBoard, &GameBoard::flagCountChanged, [this](int flagCount)
+    {
+        ui->flagCounter->setCounter(flagCount);
+        if (flagCount > ui->mineCounter->getCount())
+        {
+            ui->flagCounter->setColor(Qt::red);
+            return;
+        }
+        ui->flagCounter->setColor(Qt::blue);
+    });
     connect(gameBoard, &GameBoard::victory, this, &MainWindow::victory, Qt::UniqueConnection);
     connect(gameBoard, &GameBoard::defeat, this, &MainWindow::defeat, Qt::UniqueConnection);
 
+    int width = this->width() < gameBoard->width() ? gameBoard->width() : this->width();
+    int height = this->height() < gameBoard->height() ? gameBoard->height() : this->height();
+    this->resize(QSize(width, height));
     gameBoard->show();
 }
 
@@ -90,6 +114,7 @@ void MainWindow::setupStateMachine()
     connect(inProgressState, &QState::entered, [this]()
     {
         ui->mineTimer->start();
+        connect(ui->btnQuit, SIGNAL(clicked()), gameBoard, SLOT(quit()), Qt::UniqueConnection);
     });
 
     connect(victoryState, &QState::entered, [this]()

@@ -7,8 +7,8 @@
 
 namespace DEFAULT_SETTINGS
 {
-    const unsigned int MIN_ROWS = 10;
-    const unsigned int MIN_COLUMNS = 10;
+    const unsigned int MIN_ROWS = 2;
+    const unsigned int MIN_COLUMNS = 2;
 
     const unsigned int MAX_ROWS = 30;
     const unsigned int MAX_COLUMNS = 40;
@@ -31,6 +31,7 @@ public:
     explicit Settings(QWidget *parent = nullptr);
     Settings(unsigned int numRows, unsigned int numColumns, unsigned int numMines, QWidget *parent = nullptr);
     ~Settings();
+
     unsigned int numRows();
     unsigned int numColumns();
     unsigned int numMines();

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include "gameboard.h"
 #include "help.h"
 #include "settings.h"
@@ -19,6 +20,10 @@ public:
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+protected:
+
+    void closeEvent(QCloseEvent *event) override;
 
 signals:
 
@@ -40,6 +45,7 @@ private:
 private:
 
     Ui::MainWindow *ui;
+    QVBoxLayout *layout;
     GameBoard *gameBoard;
     Settings *settings;
     Stats *stats;

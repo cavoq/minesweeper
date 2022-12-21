@@ -10,6 +10,8 @@ class Counter : public QLCDNumber
 public:
 
     Counter(QWidget* parent = nullptr);
+    int getCount();
+    void setColor(QColor col);
 
 public slots:
 

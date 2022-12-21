@@ -56,7 +56,7 @@ void GameBoard::initialize()
         m_mines.remove(mine);
 
         if (explosionTimer->property("victory").toBool())
-            mine->setIcon(mine->blankIcon());
+            mine->setIcon(mine->mineIcon());
         else
         {
             if (!m_correctFlags.contains(mine))
@@ -106,7 +106,6 @@ void GameBoard::setupLayout()
     this->setLayout(gameLayout);
 }
 
-// Use difference between WIDTH and LAYOUTWIDTH AND HEIGHT, USE BIGGER VALUE
 void GameBoard::calculateTileSize()
 {
     tileWidth = DEFAULT_TILE_WIDTH;
@@ -165,6 +164,11 @@ void GameBoard::createTiles()
     m_tiles[0][0]->setDown(true);
 }
 
+void GameBoard::quit()
+{
+    defeatAnimation();
+}
+
 void GameBoard::addNeighbors()
 {
     for (unsigned int row = 0; row < m_numRows; ++row)
@@ -217,7 +221,11 @@ void GameBoard::defeatAnimation()
     {
         for (auto wrong : qAsConst(m_incorrectFlags))
         {
-            wrong->setIcon(wrong->mineIcon());
+            wrong->setStyleSheet("background-color: red;");
+        }
+        for (auto correct : qAsConst(m_correctFlags))
+        {
+            correct->setStyleSheet("background-color: blue;");
         }
         for (auto mine : qAsConst(m_mines))
         {

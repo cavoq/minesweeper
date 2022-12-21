@@ -14,16 +14,21 @@ class Stats : public QDialog
     Q_OBJECT
 
 public:
+
     explicit Stats(QWidget *parent = nullptr);
     ~Stats();
+
     bool addToRecord(Settings &settings, QString time, bool win);
+    bool save();
+    bool read();
 
 private:
+
     void createTable();
-    bool read();
     bool insertRecord(Settings &settings, QString time, int games, int wins);
 
 private:
+
     Ui::Stats *ui;
     QVBoxLayout *layout;
     static QString statsJsonFile;

@@ -8,6 +8,12 @@ MineTimer::MineTimer(QWidget* parent) : QLCDNumber(parent), m_seconds(0)
     display("00:00");
 }
 
+MineTimer::~MineTimer()
+{
+    delete time;
+    delete timer;
+}
+
 void MineTimer::start()
 {
     reset();
