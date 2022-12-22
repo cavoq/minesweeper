@@ -1,4 +1,4 @@
-#include "model/header/gameboard.h"
+#include "mon/header/gameboard.h"
 #include "qtimer.h"
 
 #include <algorithm>
