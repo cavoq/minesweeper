@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
-#include "gameboard.h"
+#include "mon/header/gameboard.h"
 #include "help.h"
 #include "settings.h"
 #include "stats.h"

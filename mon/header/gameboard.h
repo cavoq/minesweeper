@@ -5,7 +5,7 @@
 #include <QList>
 #include <QSet>
 #include "qgridlayout.h"
-#include "settings.h"
+#include "model/header/settings.h"
 #include "tile.h"
 
 /**

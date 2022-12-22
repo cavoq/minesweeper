@@ -12,24 +12,24 @@ CONFIG += c++17
 
 SOURCES += \
     model/src/counter.cpp \
-    model/src/gameboard.cpp \
+    mon/src/gameboard.cpp \
     model/src/help.cpp \
     main.cpp \
     model/src/mainwindow.cpp \
     model/src/minetimer.cpp \
     model/src/settings.cpp \
     model/src/stats.cpp \
-    model/src/tile.cpp
+    mon/src/tile.cpp
 
 HEADERS += \
     model/header/counter.h \
-    model/header/gameboard.h \
+    mon/header/gameboard.h \
     model/header/help.h \
     model/header/mainwindow.h \
     model/header/minetimer.h \
     model/header/settings.h \
     model/header/stats.h \
-    model/header/tile.h
+    mon/header/tile.h
 
 FORMS += \
     view/help.ui \

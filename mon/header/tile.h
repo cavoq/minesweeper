@@ -268,7 +268,6 @@ private:
     QState *revealedState; // The revealed state of the tile
     QState *revealNeighborsState; // The state for revealing the neighbors of the tile
     QFinalState *disabledState; // The disabled state of the tile
-
 };
 
 #endif // TILE_H
